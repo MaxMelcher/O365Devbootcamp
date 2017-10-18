@@ -1,0 +1,21 @@
+﻿<html>
+<head>
+    <script src="https://statics.teams.microsoft.com/sdk/v0.4/js/MicrosoftTeams.min.js"></script>
+    <script type="text/javascript">
+        microsoftTeams.initialize();
+        microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
+            microsoftTeams.settings.setSettings({
+                entityId: "O365DeveloperBootcampSpeakers",
+                contentUrl: "https://o365developerbootcamp.azurewebsites.net/index.html",
+                suggestedDisplayName: "O365 Developer Bootcamp Speakers",
+                websiteUrl: "https://<APPNAME>.azurewebsites.net"
+            });
+            saveEvent.notifySuccess();
+        });
+        microsoftTeams.settings.setValidityState(true);
+    </script>
+</head>
+<body>
+
+</body>
+</html>
