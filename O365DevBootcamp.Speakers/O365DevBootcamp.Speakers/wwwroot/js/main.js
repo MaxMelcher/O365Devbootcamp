@@ -3,8 +3,8 @@ microsoftTeams.initialize();
 
 $(document).ready(function () {
     window.authConfig = {
-        tenant: 'maxmelcher.onmicrosoft.com',
-        clientId: 'ef8df8b5-1701-431e-ae2e-39184aa77cbd',
+        tenant: 'melcher.it',
+        clientId: 'a3425cae-0f8c-4d9b-a836-75636e93bd9a',
         redirectUri: 'https://o365devbootcamp.azurewebsites.net/index.html',
         postLogoutRedirectUri: 'https://o365devbootcamp.azurewebsites.net/logout.html',
         endpoints: {
@@ -15,13 +15,14 @@ $(document).ready(function () {
     };
 
     window.appConfig = {
-        siteUrl: '/sites/O365DeveloperBootcamp-Munich',
-        documentLibrary: 'Speaker',
-        list: 'Attendees'
+        siteUrl: '',
+        documentLibrary: 'speaker',
+        list: 'attendees'
     };
 
     window.authContext = new AuthenticationContext(window.authConfig);
     // determine if it's the callback page in a popup window redirecting from authentication page.
+    debugger;
     if (window.authContext.isCallback(window.location.hash)) {
         // acquire graph token and notify the main page.
         window.authContext.handleWindowCallback();
@@ -55,9 +56,11 @@ function initPage() {
         window.authContext.acquireToken(window.authConfig.endpoints.graph, function (message, token) {
             window.localStorage.setItem("graphToken", token);
             if (token) {
-                getData();
+                alert("getdata");
+                //getData();
             }
             else {
+                alert("failed");
                 authenticateFailed("Acquring Graph Token Failed: " + message);
             }
         });
@@ -77,6 +80,7 @@ function authenticate(url) {
 
 // callback function called if the login or log out succeeds in the authentication popup.
 function authenticateSucceeded(token) {
+    debugger;
     $("body").show();
     if (token) {
         window.localStorage.setItem("graphToken", token);
@@ -92,6 +96,7 @@ function authenticateSucceeded(token) {
 
 // callback function called if the login failed in the authentication popup or acquire graph token failed.
 function authenticateFailed(message) {
+    debugger;
     $("#message").append("<div>" + message + "</div>");
     if (typeof (message) === "string") {
         if (message.indexOf("Login Failed:") === 0) {
@@ -120,8 +125,14 @@ function logOut() {
 
 // login by ADAL.
 function login() {
-    window.authContext._loginInProgress = false;
-    window.authContext.login();
+    try {
+        window.authContext._loginInProgress = false;
+        window.authContext.login();
+    }
+    catch(e) {
+        alert("login: " + e);
+    }
+
 }
 
 // clean up the data shown in the page.

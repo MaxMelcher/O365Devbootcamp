@@ -27,8 +27,8 @@
       {
           "entityId": "speakers",
           "name": "Speakers",
-          "contentUrl": "https://o365devbootcamp.azurewebsites.net/",
-          "websiteUrl": "https://o365devbootcamp.azurewebsites.net/",
+          "contentUrl": "https://o365devbootcamp.azurewebsites.net/index.html",
+          "websiteUrl": "https://o365devbootcamp.azurewebsites.net/index.html",
           "scopes": [
               "personal"
           ]
@@ -57,10 +57,12 @@
       "messageTeamMembers"
   ],
   "validDomains": [
-      "*.azurewebsites.net",
-      "*.microsoft.com",
+      "graph.microsoft.com",
       "code.jquery.com",
       "secure.aadcdn.microsoftonline-p.com",
-      "statics.teams.microsoft.com"
+      "statics.teams.microsoft.com",
+      "static2.sharepointonline.com",
+      "login.microsoftonline.com",
+      "o365devbootcamp.azurewebsites.net"
   ]
 }
