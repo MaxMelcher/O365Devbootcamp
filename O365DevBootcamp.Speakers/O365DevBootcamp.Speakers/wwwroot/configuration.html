@@ -2,22 +2,31 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>Team Configuration Page</title>
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/4.1.0/css/fabric.min.css">
 </head>
 <body>
     <script src="https://statics.teams.microsoft.com/sdk/v0.4/js/MicrosoftTeams.min.js"></script>
     <script type="text/javascript">
         microsoftTeams.initialize();
-        microsoftTeams.settings.registerOnSaveHandler(function(saveEvent){
+        microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
             microsoftTeams.settings.setSettings({
-                entityId: "BikeSharing",
-                contentUrl: "https://<APPNAME>.azurewebsites.net/index.html",
-                suggestedDisplayName: "Bike Sharing",
-                websiteUrl: "https://<APPNAME>.azurewebsites.net"
+                entityId: "o365devbootcamp",
+                contentUrl: "https://o365devbootcamp.azurewebsites.net/index.html",
+                suggestedDisplayName: "o365devbootcamp",
+                websiteUrl: "https://o365devbootcamp.azurewebsites.net"
             });
             saveEvent.notifySuccess();
         });
         microsoftTeams.settings.setValidityState(true);
     </script>
+    <div class="ms-font-l">
+        Select event:
+        <select>
+            <option>Munich</option>
+            <option>Hamburg</option>
+            <option>Berlin</option>
+        </select>
+    </div>
 </body>
 </html>

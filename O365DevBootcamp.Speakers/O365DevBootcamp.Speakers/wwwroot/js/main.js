@@ -23,14 +23,16 @@ $(document).ready(function () {
     window.authContext = new AuthenticationContext(window.authConfig);
     // determine if it's the callback page in a popup window redirecting from authentication page.
     if (window.authContext.isCallback(window.location.hash)) {
+        debugger;
         // acquire graph token and notify the main page.
         window.authContext.handleWindowCallback();
         var loginError = window.authContext.getLoginError();
         if (!loginError) {
             window.authContext.acquireToken(window.authConfig.endpoints.graph, function (message, token) {
                 if (token) {
-                    microsoftTeams.authentication.notifySuccess(token);
-                    window.close();
+                    debugger;
+                    //microsoftTeams.authentication.notifySuccess(token);
+                    microsoftTeams.authentication.notifySuccess();
                 }
                 else {
                     microsoftTeams.authentication.notifyFailure("Acquring Graph Token Failed: " + message);
@@ -71,6 +73,7 @@ function initPage() {
 // handle the navigation to Azure AD authorization endpoint when login.
 // Microsoft Teams tab needs to explicitly authenticate the user in a pop up window, as it can't redirect to other domains directly.
 function authenticate(url) {
+    debugger;
     microsoftTeams.authentication.authenticate({
         url: url, width: 500, height: 700, successCallback: authenticateSucceeded, failureCallback: authenticateFailed
     });
@@ -94,13 +97,16 @@ function authenticateSucceeded(token) {
 // callback function called if the login failed in the authentication popup or acquire graph token failed.
 function authenticateFailed(message) {
     debugger;
-    $("#message").append("<div>" + message + "</div>");
-    if (typeof (message) === "string") {
-        if (message.indexOf("Login Failed:") === 0) {
-            $("#message").append("<div>Please check your account and Log In again.</div>");
-        }
-        else if (message.indexOf("Acquring Graph Token Failed:") === 0) {
-            $("#message").append("<div>Please try Log Out and Log In again.</div>");
+
+    if (!window.authContext.getCachedUser()) {
+        $("#message").append("<div>" + message + "</div>");
+        if (typeof (message) === "string") {
+            if (message.indexOf("Login Failed:") === 0) {
+                $("#message").append("<div>Please check your account and Log In again.</div>");
+            }
+            else if (message.indexOf("Acquring Graph Token Failed:") === 0) {
+                $("#message").append("<div>Please try Log Out and Log In again.</div>");
+            }
         }
     }
 }
@@ -118,6 +124,8 @@ function logOut() {
     microsoftTeams.authentication.authenticate({
         url: urlNavigate, width: 400, height: 600, successCallback: authenticateSucceeded
     });
+
+    window.location.reload();
 }
 
 // login by ADAL.
@@ -126,7 +134,7 @@ function login() {
         window.authContext._loginInProgress = false;
         window.authContext.login();
     }
-    catch(e) {
+    catch (e) {
         alert("login: " + e);
     }
 
@@ -231,7 +239,7 @@ function retrieveDocs() {
             var item = docs[i];
             var sDocName = getFileNameWithoutExtension(item.fields.LinkFilename);
 
-            var element = $("<a target='_blank'>").attr("href", item.webUrl).addClass("docTile ms-font-m");
+            var element = $("<a target='_blank'>").attr("href", item.webUrl + "?Web=1").addClass("docTile ms-font-m");
             var html = $("<div>");
             var content = $("<div class='docTileContent'>").appendTo(html);
             var text = $("<div class='docTileText'>").text(sDocName).appendTo(content);
@@ -275,7 +283,7 @@ function retrieveBikes() {
             }
 
             var content = $("<div class='itemTileContent'>").appendTo(html);
-            var text = $("<div class='itemTileText'>").text(item.fields.Title + " " + item.fields.Serial).appendTo(content);
+            var text = $("<div class='itemTileText'>").text(item.fields.Title).appendTo(content);
 
             if (item.fields.Color_x0020_Swatch) {
                 var color = $("<div class='itemColorArea'>").appendTo(content);
