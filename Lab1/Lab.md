@@ -115,6 +115,7 @@ Here you will create a document library and a list in a SharePoint site to store
 9. Go to the list by clicking its name.
 10. Click the gear icon on the top nav bar on the right, then select **List settings** to go to your Apps page.
 11. Click **Create column** in **Columns** section.
+> **Note:** Please make sure that you use the exact column names when you create the columns - renaming them does not work!
 12. In the **Create Column** page, set the **Column name** to **Serial**, configure the following settings, then click the **OK** button at the bottom.
 	- In the **The type of information in this column is** field, select **Single line of text**.
 	- In all other fields, keep the default settings.
@@ -456,4 +457,4 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 
 	>**Note:** The Check in and Check out functionality is a simulation.  Nothing is actually happening to any data sources when you click these buttons.
 
-Congratulations! You have created an web site and added it as a Tab in Microsoft Teams.
+Congratulations! You have created a web site and added it as a Tab in Microsoft Teams!
