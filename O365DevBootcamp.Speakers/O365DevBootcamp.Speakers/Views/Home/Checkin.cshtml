@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "O365 Development Bootcamp - Check-in";
+}
+
+
+<div class="jumbotron">
+    <h1>O365 Development Bootcamp </h1>
+    <h2>
+        Check-in for @DateTime.Now.ToString("dd.MM.yyyy")
+    </h2>
+    <p>Please take a moment and check-in while we spin up our development environments!</p>
+</div>
+
+<span></span>
+
+@using (Html.BeginForm("Checkin", "Home", null, FormMethod.Post))
+{
+<div class="form-group">
+    <label for="exampleInputEmail1">Email address of a Microsoft/O365 Live Account</label>
+    <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+</div>
+<div class="form-group">
+    <label for="fullname">Full Name</label>
+    <input type="text" class="form-control" name="fullname" id="fullname" placeholder="first and last name" required>
+</div>
+<div class="form-group">
+    <label for="twitter">Twitter</label>
+    <input type="text" class="form-control" name="twitter" id="twitter" placeholder="twitter handle (optional)" >
+</div>
+    <div class="form-group">
+        <label for="blog">Blog</label>
+        <input type="text" class="form-control" name="blog" id="blog" placeholder="blog url (optional)">
+    </div>
+    <div class="form-group">
+        <label for="picture">Picture Url (400x400 would be ideal!)</label>
+        <input type="text" class="form-control" name="picture" id="picture" placeholder="link to a nice picture of you" required>
+        <p class="help-block">Please select a nice picture - or we will do it for you.</p>
+    </div>
+<div class="checkbox">
+    <label>
+        <input required type="checkbox">Our <a href="http://confcodeofconduct.com/" target="_blank">code of conduct</a> is fine for me
+    </label>
+</div>
+<button type="submit" class="btn btn-default">Submit</button>
+}

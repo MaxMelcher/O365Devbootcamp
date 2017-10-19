@@ -19,6 +19,7 @@ namespace O365DevBootcamp.Speakers
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+
                 .UseStartup<Startup>()
                 .Build();
     }
