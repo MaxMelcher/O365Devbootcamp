@@ -30,6 +30,7 @@ $(document).ready(function () {
             window.authContext.acquireToken(window.authConfig.endpoints.graph, function (message, token) {
                 if (token) {
                     microsoftTeams.authentication.notifySuccess(token);
+                    window.close();
                 }
                 else {
                     microsoftTeams.authentication.notifyFailure("Acquring Graph Token Failed: " + message);
@@ -81,7 +82,6 @@ function authenticateSucceeded(token) {
     $("body").show();
     if (token) {
         window.localStorage.setItem("graphToken", token);
-
         var curUser = window.authContext.getCachedUser();
         showUserInfo(curUser);
         getData();
