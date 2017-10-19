@@ -1,0 +1,41 @@
+﻿@using O365DevBootcamp.Speakers.Controllers
+@model List<O365DevBootcamp.Speakers.Controllers.Attendee>
+    
+ 
+
+
+<div class="jumbotron">
+    <h1>O365 Development Bootcamp // Checked-in // @DateTime.Now.ToString("dd.MM.yyyy")</h1>
+    
+    <table class="table table-condensed table-hover">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Twitter</th>
+            <th>Blog</th>
+            <th>Picture</th>
+            <th>Added</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+
+
+        @foreach (var attendee in Model)
+        {
+            <tr>
+                <td>@attendee.Fullname</td>
+                <td>@attendee.Email</td>
+                <td>@attendee.Twitter</td>
+                <td>@attendee.Blog</td>
+                <td>@attendee.Picture</td>
+                <td>@attendee.Added</td>
+                <td>@Html.ActionLink("Add","Add", "Home", new {attendee.Email}, new {@class = "btn btn-primary"})</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    
+    <div id="message"></div>
+</div>
