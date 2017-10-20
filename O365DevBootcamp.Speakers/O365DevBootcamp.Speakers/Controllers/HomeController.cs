@@ -69,6 +69,12 @@ namespace O365DevBootcamp.Speakers.Controllers
                 Picture = picture
             };
 
+            var client = new HttpClient();
+            var url = "https://outlook.office.com/webhook/4227e51c-d798-4c41-8e2c-9139d6afc5f2@5697ac0d-aec6-4e7d-9437-986d6cac2590/IncomingWebhook/821d15eb43414232a1e958e61582be7f/7924b20e-426e-4276-a710-d9ed98b152d5";
+            var message = $"{{\"text\": \"{attendee.Fullname} checked in.\",\"sections\": [{{\"activityTitle\": \"Check-in\",\"activityText\": \"{attendee.Email}\",\"activityImage\": \"{attendee.Picture}\"}}]}}";
+            var body = new StringContent(message, System.Text.Encoding.UTF8, "application/json");
+            await client.PostAsync(url, body);
+
             //defaultConnection
             await _db.InsertAsync(attendee);
 
@@ -83,19 +89,28 @@ namespace O365DevBootcamp.Speakers.Controllers
         public async Task<IActionResult> Add(string email)
         {
             var attendee = await _db.QueryAsync<Attendee>("select top 1 * from Attendee where email = @email", new { email });
-
-
-            var client = new HttpClient();
-            var url = "https://outlook.office.com/webhook/4227e51c-d798-4c41-8e2c-9139d6afc5f2@5697ac0d-aec6-4e7d-9437-986d6cac2590/IncomingWebhook/821d15eb43414232a1e958e61582be7f/7924b20e-426e-4276-a710-d9ed98b152d5";
-            var message = $"{{\"text\": \"{attendee.Fullname} checked in.\",\"sections\": [{{\"activityTitle\": \"Check-in\",\"activityText\": \"{attendee.Email}\",\"activityImage\": \"{attendee.Picture}\"}}]}}";
-            var body = new StringContent(message, System.Text.Encoding.UTF8, "application/json");
-            await client.PostAsync(url, body);
-
-            
             attendee.Added = true;
             await _db.UpdateAsync(attendee);
 
             return RedirectToAction("List");
+        }
+
+        public async Task<IActionResult> Invited(string email)
+        {
+            var attendee = await _db.QueryAsync<Attendee>("select top 1 * from Attendee where email = @email", new { email });
+            attendee.Invited = true;
+            await _db.UpdateAsync(attendee);
+
+            return RedirectToAction("List");
+        }
+
+        public async Task<IActionResult> Accept(string email)
+        {
+            var attendee = await _db.QueryAsync<Attendee>("select top 1 * from Attendee where email = @email", new { email });
+            attendee.Accepted = true;
+            await _db.UpdateAsync(attendee);
+
+            return Redirect("/index.html");
         }
     }
     [Table("Attendee")]
@@ -110,5 +125,7 @@ namespace O365DevBootcamp.Speakers.Controllers
         public string Blog { get; set; }
         public string Picture { get; set; }
         public bool Added { get; set; }
+        public bool Invited { get; set; }
+        public bool Accepted { get; set; }
     }
 }

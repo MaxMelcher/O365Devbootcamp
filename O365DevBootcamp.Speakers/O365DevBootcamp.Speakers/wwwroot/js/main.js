@@ -173,8 +173,8 @@ function showBike() {
         return;
     }
 
-    if (item.fields.Picture !== null) {
-        $("#bikeImage").css("background-image", "url('" + item.fields.Picture.Url + "')");
+    if (item.fields.Image !== null) {
+        $("#bikeImage").css("background-image", "url('" + item.fields.Image + "')");
     }
 
     $("#bikeTitle").text(item.fields.Title + " " + item.fields.Serial);
@@ -278,8 +278,8 @@ function retrieveBikes() {
             var html = $("<div>");
 
             var image = $("<div class='itemTileImage'>").appendTo(html);
-            if (item.fields.Picture) {
-                image.css("background-image", "url('" + item.fields.Picture.Url + "')");
+            if (item.fields.Image) {
+                image.css("background-image", "url('" + item.fields.Image + "')");
             }
 
             var content = $("<div class='itemTileContent'>").appendTo(html);
