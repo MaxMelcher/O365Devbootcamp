@@ -53,7 +53,7 @@ namespace O365DevBootcamp.Speakers.Controllers
 
         public async Task<IActionResult> List()
         {
-            var list = await _db.QueryManyAsync<Attendee>("select * from Attendee");
+            var list = await _db.QueryManyAsync<Attendee>("select * from Attendee order by id");
             return View(list.ToList());
         }
 
@@ -70,7 +70,7 @@ namespace O365DevBootcamp.Speakers.Controllers
             };
 
             var client = new HttpClient();
-            var url = "https://outlook.office.com/webhook/4227e51c-d798-4c41-8e2c-9139d6afc5f2@5697ac0d-aec6-4e7d-9437-986d6cac2590/IncomingWebhook/821d15eb43414232a1e958e61582be7f/7924b20e-426e-4276-a710-d9ed98b152d5";
+            var url = "https://outlook.office.com/webhook/4a7880a7-dc5f-487d-8152-ea274f2050d0@5697ac0d-aec6-4e7d-9437-986d6cac2590/IncomingWebhook/d7a5c0a5452643baa43789bde1dc9b99/7924b20e-426e-4276-a710-d9ed98b152d5";
             var message = $"{{\"text\": \"{attendee.Fullname} checked in.\",\"sections\": [{{\"activityTitle\": \"Check-in\",\"activityText\": \"{attendee.Email}\",\"activityImage\": \"{attendee.Picture}\"}}]}}";
             var body = new StringContent(message, System.Text.Encoding.UTF8, "application/json");
             await client.PostAsync(url, body);

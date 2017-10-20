@@ -7,7 +7,12 @@
     window.authConfig.endpoints.graph = "https://graph.microsoft.com";
 
 
-    function Invite(email) {
+    function Invite(email, btn) {
+
+        if (btn) {
+            $(btn).attr("disabled", true);
+        }
+
         var token = window.localStorage.getItem("graphToken");
         var json = {
             "invitedUserEmailAddress": email,
@@ -33,7 +38,12 @@
         });
     }
 
-    function Add(email, name, twitter, blog, picture) {
+    function Add(email, name, twitter, blog, picture, btn) {
+
+        if (btn) {
+            $(btn).attr("disabled", true);
+        }
+
         var groupId = "4a7880a7-dc5f-487d-8152-ea274f2050d0";
         var token = window.localStorage.getItem("graphToken");
 
@@ -121,8 +131,8 @@
                     <td>@attendee.Invited</td>
                     <td>@attendee.Accepted</td>
                     <td>@attendee.Added</td>
-                    <td><button class="btn btn-primary" onclick="Invite('@attendee.Email');">Invite</button></td>
-                    <td><button class="btn btn-primary" onclick="Add('@attendee.Email', '@attendee.Fullname','@attendee.Twitter','@attendee.Blog','@attendee.Picture');">Add</button></td>
+                    <td><button class="btn btn-primary" onclick="Invite('@attendee.Email', this);">Invite</button></td>
+                    <td><button class="btn btn-primary" onclick="Add('@attendee.Email', '@attendee.Fullname','@attendee.Twitter','@attendee.Blog','@attendee.Picture', this);">Add</button></td>
                 </tr>
             }
         </tbody>
