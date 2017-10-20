@@ -51,7 +51,12 @@ In this exercise, you will create an **Incoming Webhook** connector and send an 
 
 	![Screenshot of the previous step](Images/curl-command.png)
 
-	> **Note:** Replace **&lt;YOUR WEBHOOK URL&gt;** with the webhook URL you saved when you created the **Incoming Webhook** connector.
+or use PowerShell:
+````powershell
+Invoke-WebRequest -H @{"Content-Type" = "application/json"} -Method Post  -body '{"text": "Hello World!"}' <YOUR WEBHOOK URL>
+````
+
+	> **Note:** Replace **<YOUR WEBHOOK URL>** with the webhook URL you saved when you created the **Incoming Webhook** connector.
 
 2. When the POST succeeds, you will see a simple 1 outputted by curl.
 3. Check the Conversations tab in the Microsoft Teams application. You will see the new  card message posted to the conversation.
