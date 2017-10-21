@@ -323,7 +323,7 @@ function acquireSiteId(cb) {
             'Accept': 'application/json'
         }
     }).done(function (response) {
-        window.localStorage.setItem("siteId", response.id);
+        window.localStorage.setItem("siteId", response.value[0].id);
         cb();
     });
 }
