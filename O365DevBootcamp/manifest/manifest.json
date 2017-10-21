@@ -1,0 +1,72 @@
+{
+    "$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.0",
+    "version": "1.0.0",
+    "id": "6a4248ea-04e4-41b0-95d8-0299bdfefba5",
+    "packageName": "com.samples.sampleapp",
+    "developer": {
+        "name": "Max Melcher",
+        "websiteUrl": "https://melcher.it",
+        "privacyUrl": "https://melcher.it",
+        "termsOfUseUrl": "https://melcher.it"
+    },
+    "name": {
+        "short": "Bootcamp Bot",
+        "full": "O365 Developer Bootcamp Bot"
+    },
+    "description": {
+        "short": "Simple app to show the power of Teams",
+        "full": "Simple app to show the power of Teams. Source code available at: https://github.com/MaxMelcher/O365Devbootcamp/"
+    },
+    "icons": {
+        "outline": "contoso20x20.png",
+        "color": "contoso96x96.png"
+    },
+    "accentColor": "#60A18E",
+    "bots": [
+        {
+            "botId": "4734a865-d3ea-4d0f-a904-0fe03de4c7bd",
+            "scopes": [
+                "team", 
+                "personal"
+            ],
+            "commandLists": [
+             {
+                 "commands": [
+                     {
+                         "description": "Hi",
+                         "title": "Hello"
+                     }
+                 ],
+                 "scopes": [
+                     "team", "personal"
+                 ]
+                 
+             }   
+            ],"isNotificationOnly": false,
+            "needsChannelSelector": false
+        }
+    ],
+    "configurableTabs": [
+        {
+            "configurationUrl": "https://o365devbootcamp.azurewebsites.net/configuration.html",
+            "canUpdateConfiguration": true,
+            "scopes": [
+                "team"
+            ]
+        }
+    ],
+    "permissions": [
+        "identity",
+        "messageTeamMembers"
+    ],
+    "validDomains": [
+        "graph.microsoft.com",
+        "code.jquery.com",
+        "secure.aadcdn.microsoftonline-p.com",
+        "statics.teams.microsoft.com",
+        "static2.sharepointonline.com",
+        "login.microsoftonline.com",
+        "o365devbootcamp.azurewebsites.net"
+    ]
+  }
