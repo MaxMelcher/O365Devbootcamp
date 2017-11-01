@@ -339,7 +339,7 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 7. In the **Solution Explorer**, right click the project and select **Add | Existing Item**. Locate and select the **main.js** file from the [Lab Files](./Lab Files) folder, then click the **Add** button.
 8. Open the **main.js** file, replace the **&lt;TENANT&gt;** placeholder with the name of your **Azure tenant**, the **&lt;CLIENTID&gt;** placeholder with the **Application ID** of the app you previously registered, and the **&lt;siteName&gt;** placeholder with the name of your site within the default site collection(eg. "microsoft"). Please test in the [Graph Explorer](https://developer.microsoft.com/en-us/graph/graph-explorer) that the following query returns *only* the site you created:
 
-> https://graph.microsoft.com/v1.0/sites?search=<siteName>
+> https://graph.microsoft.com/v1.0/sites?search=&lt;siteName&gt;
 
 if not, adjust your query.
 
