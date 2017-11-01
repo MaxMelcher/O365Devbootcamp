@@ -1,13 +1,60 @@
-﻿@using O365DevBootcamp.Speakers.Controllers
+﻿@using Newtonsoft.Json
+@using O365DevBootcamp.Speakers.Controllers
 @model List<O365DevBootcamp.Speakers.Controllers.Attendee>
+
+<script>
+    var invite = @Html.Raw(JsonConvert.SerializeObject(Model.Where(x => !x.Invited), Formatting.Indented));
+    var add = @Html.Raw(JsonConvert.SerializeObject(Model.Where(x => x.Invited && !x.Added)));
+</script>
 
 <script>
     window.authConfig = {}
     window.authConfig.endpoints = {};
     window.authConfig.endpoints.graph = "https://graph.microsoft.com";
 
+    function InviteAll() {
+        var mails = "";
+        var proms = [];
+        for (var i = 0; i < invite.length; i++) {
+            var attendee = invite[i];
+            var promise = Invite(attendee.Email, null, false);
+            proms.push(promise);
+            mails += attendee.Email + ";";
+        }
 
-    function Invite(email, btn) {
+        $.when.apply($, proms).then(function () {
+            console.log("DONE");
+            window.location.href = "/home/InvitedAll?Email=" + mails;
+        },
+            function (e) {
+                console.log("My ajax failed");
+            });
+
+
+    }
+
+    function AddAll() {
+        var mails = "";
+        var proms = [];
+        for (var i = 0; i < add.length; i++) {
+            var attendee = add[i];
+
+            var promise = Add(attendee.Email, attendee.Name, attendee.Twitter, attendee.Blog, attendee.Picture, null, false);
+            proms.push(promise);
+            mails += attendee.Email + ";";
+        }
+
+        $.when.apply($, proms).then(function () {
+            console.log("DONE");
+            window.location.href = "/home/AddAll?Email=" + mails;
+        },
+            function (e) {
+                console.log("My ajax failed");
+            });
+
+    }
+
+    function Invite(email, btn, redirect) {
 
         if (btn) {
             $(btn).attr("disabled", true);
@@ -20,7 +67,7 @@
             "sendInvitationMessage": "true"
         }
 
-        $.ajax({
+        return $.ajax({
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(json),
@@ -32,21 +79,23 @@
                 'Accept': 'application/json'
             }
         }).done(function (response) {
-            window.location.href = "/home/Invited?Email=" + email;
+            if (redirect) {
+                window.location.href = "/home/Invited?Email=" + email;
+            }
         }).fail(function (response) {
             console.log(response);
         });
     }
 
-    function Add(email, name, twitter, blog, picture, btn) {
+    function Add(email, name, twitter, blog, picture, btn, redirect) {
 
         if (btn) {
             $(btn).attr("disabled", true);
         }
 
-        var groupId = "4a7880a7-dc5f-487d-8152-ea274f2050d0";
+        var groupId = "48cf30cc-c8f4-4632-901e-2f750ace52f7";
         var token = window.localStorage.getItem("graphToken");
-
+        var deferred = $.Deferred();
         $.ajax({
             type: "GET",
             contentType: "application/json",
@@ -70,12 +119,15 @@
                     'Accept': 'application/json'
                 }
             }).done(function (response) {
+                //member/memberof
+                //https://graph.microsoft.com/v1.0/groups/48cf30cc-c8f4-4632-901e-2f750ace52f7/sites/root
+                //list id
 
                 $.ajax({
                     type: "POST",
                     contentType: "application/json",
                     url:
-                    "https://graph.microsoft.com/v1.0/sites/melcherit.sharepoint.com,96e8ec8b-5317-4cb6-919f-ebdb0e0231bd,171c4e36-3272-41f2-83ca-03cbad808d60/lists/7e4a822a-91be-493a-a2fe-899f7e667e1e/items",
+                    "https://graph.microsoft.com/v1.0/sites/melcherit.sharepoint.com,9309a3cb-bdf1-4232-85c5-b6012f54d41f,171c4e36-3272-41f2-83ca-03cbad808d60/lists/2b161ce0-7d30-412e-a13e-e67a94dc66fc/items",
                     data: JSON.stringify(
                         {
                             "fields": {
@@ -93,50 +145,71 @@
                         'Accept': 'application/json'
                     }
                 }).done(function (response) {
-
-                    window.location.href = "/home/add?Email=" + email;
+                    if (redirect) {
+                        window.location.href = "/home/add?Email=" + email;
+                    }
+                    deferred.resolve();
                 });
             });
         });
+        return deferred.promise();
     }
 </script>
 
 <div class="jumbotron">
     <h1>O365 Development Bootcamp // Checked-in // @DateTime.Now.ToString("dd.MM.yyyy")</h1>
-
-    <table class="table table-condensed table-hover">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Twitter</th>
-                <th>Blog</th>
-                <th>Picture</th>
-                <th>Invited</th>
-                <th>Accepted</th>
-                <th>Added</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var attendee in Model)
-            {
-                <tr>
-                    <td>@attendee.Fullname</td>
-                    <td>@attendee.Email</td>
-                    <td>@attendee.Twitter</td>
-                    <td>@attendee.Blog</td>
-                    <td><img src="@attendee.Picture" height="200" width="200" /></td>
-                    <td>@attendee.Invited</td>
-                    <td>@attendee.Accepted</td>
-                    <td>@attendee.Added</td>
-                    <td><button class="btn btn-primary" onclick="Invite('@attendee.Email', this);">Invite</button></td>
-                    <td><button class="btn btn-primary" onclick="Add('@attendee.Email', '@attendee.Fullname','@attendee.Twitter','@attendee.Blog','@attendee.Picture', this);">Add</button></td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <div id="message"></div>
 </div>
+
+<div><button class="btn btn-primary" onclick="InviteAll();">Invite All</button><button class="btn btn-warning" onclick="AddAll();">Add All</button> </div>
+
+<table class="table table-condensed table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Twitter</th>
+            <th>Blog</th>
+            <th>Picture</th>
+            <th>Invited</th>
+            <th>Accepted</th>
+            <th>Added</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var attendee in Model)
+            {
+            <tr>
+                <td>@attendee.Fullname</td>
+                <td>@attendee.Email</td>
+                <td>@attendee.Twitter</td>
+                <td>@attendee.Blog</td>
+                <td><img src="@attendee.Picture" height="200" width="200" /></td>
+                <td>@attendee.Invited</td>
+                <td>@attendee.Accepted</td>
+                <td>@attendee.Added</td>
+
+                @if (!attendee.Invited)
+                {
+                    <td><button class="btn btn-primary" onclick="Invite('@attendee.Email', this, true);">Invite</button></td>
+                }
+                else
+                {
+                    <td></td>
+                }
+
+                @if (attendee.Invited && !attendee.Added)
+                {
+                    <td><button class="btn btn-primary" onclick="Add('@attendee.Email', '@attendee.Fullname','@attendee.Twitter','@attendee.Blog','@attendee.Picture', this, true);">Add</button></td>
+                }
+                else
+                {
+                    <td></td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="message"></div>

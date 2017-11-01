@@ -70,7 +70,7 @@ namespace O365DevBootcamp.Speakers.Controllers
             };
 
             var client = new HttpClient();
-            var url = "https://outlook.office.com/webhook/4a7880a7-dc5f-487d-8152-ea274f2050d0@5697ac0d-aec6-4e7d-9437-986d6cac2590/IncomingWebhook/d7a5c0a5452643baa43789bde1dc9b99/7924b20e-426e-4276-a710-d9ed98b152d5";
+            var url = "https://outlook.office.com/webhook/48cf30cc-c8f4-4632-901e-2f750ace52f7@5697ac0d-aec6-4e7d-9437-986d6cac2590/IncomingWebhook/1844a5b58faf4af98eaeb2f1fb1b0d6a/7924b20e-426e-4276-a710-d9ed98b152d5";
             var message = $"{{\"text\": \"{attendee.Fullname} checked in.\",\"sections\": [{{\"activityTitle\": \"Check-in\",\"activityText\": \"{attendee.Email}\",\"activityImage\": \"{attendee.Picture}\"}}]}}";
             var body = new StringContent(message, System.Text.Encoding.UTF8, "application/json");
             await client.PostAsync(url, body);
@@ -95,12 +95,35 @@ namespace O365DevBootcamp.Speakers.Controllers
             return RedirectToAction("List");
         }
 
+        public async Task<IActionResult> AddAll(string email)
+        {
+            foreach (var s in email.Split(";", StringSplitOptions.RemoveEmptyEntries))
+            {
+                var attendee =
+                    await _db.QueryAsync<Attendee>("select top 1 * from Attendee where email = @email", new { email = s});
+                attendee.Added = true;
+                await _db.UpdateAsync(attendee);
+            }
+            return RedirectToAction("List");
+        }
+
         public async Task<IActionResult> Invited(string email)
         {
             var attendee = await _db.QueryAsync<Attendee>("select top 1 * from Attendee where email = @email", new { email });
             attendee.Invited = true;
             await _db.UpdateAsync(attendee);
 
+            return RedirectToAction("List");
+        }
+
+        public async Task<IActionResult> InvitedAll(string email)
+        {
+            foreach (var s in email.Split(";", StringSplitOptions.RemoveEmptyEntries))
+            {
+                var attendee = await _db.QueryAsync<Attendee>("select top 1 * from Attendee where email = @email", new {email = s });
+                attendee.Invited = true;
+                await _db.UpdateAsync(attendee);
+            }
             return RedirectToAction("List");
         }
 

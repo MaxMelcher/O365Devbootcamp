@@ -17,7 +17,7 @@ $(document).ready(function () {
     window.appConfig = {
         siteUrl: '',
         documentLibrary: 'Speaker',
-        list: 'Attendees'
+        list: 'Attendee'
     };
 
     window.authContext = new AuthenticationContext(window.authConfig);
@@ -322,7 +322,7 @@ function acquireSiteId(cb) {
 
     $.ajax({
         type: "GET",
-        url: window.authConfig.endpoints.graph + "/v1.0/sites/melcherit.sharepoint.com,96e8ec8b-5317-4cb6-919f-ebdb0e0231bd,171c4e36-3272-41f2-83ca-03cbad808d60",
+        url: window.authConfig.endpoints.graph + "/v1.0/sites/melcherit.sharepoint.com,9309a3cb-bdf1-4232-85c5-b6012f54d41f,171c4e36-3272-41f2-83ca-03cbad808d60",
         dataType: "json",
         headers: {
             'Authorization': 'Bearer ' + token,
