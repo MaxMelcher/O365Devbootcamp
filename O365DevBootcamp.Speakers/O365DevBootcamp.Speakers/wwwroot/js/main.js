@@ -17,7 +17,7 @@ $(document).ready(function () {
     window.appConfig = {
         siteUrl: '',
         documentLibrary: 'Speaker',
-        list: 'Attendee'
+        list: 'Attendees'
     };
 
     window.authContext = new AuthenticationContext(window.authConfig);
@@ -243,7 +243,7 @@ function retrieveDocs() {
             var html = $("<div>");
             var content = $("<div class='docTileContent'>").appendTo(html);
             var text = $("<div class='docTileText'>").text(sDocName).appendTo(content);
-            var icon = $("<div class='docTileIcon'><i class='ms-Icon ms-Icon--WordLogo'></i></div>").appendTo(content);
+            var icon = $("<div class='docTileIcon'><i class='ms-Icon ms-Icon--PowerPointLogo'></i></div>").appendTo(content);
             element.html(html);
             $("#docBin").append(element);
         }
@@ -322,7 +322,7 @@ function acquireSiteId(cb) {
 
     $.ajax({
         type: "GET",
-        url: window.authConfig.endpoints.graph + "/v1.0/sites/melcherit.sharepoint.com,9309a3cb-bdf1-4232-85c5-b6012f54d41f,171c4e36-3272-41f2-83ca-03cbad808d60",
+        url: window.authConfig.endpoints.graph + "/v1.0/sites/melcherit.sharepoint.com,572197fb-4c8a-4dd3-b2d3-14af2cf3c8fd,171c4e36-3272-41f2-83ca-03cbad808d60",
         dataType: "json",
         headers: {
             'Authorization': 'Bearer ' + token,

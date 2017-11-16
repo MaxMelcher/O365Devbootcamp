@@ -5,7 +5,7 @@
 <div class="jumbotron">
     <h1>O365 Development Bootcamp </h1>
     <h2>
-        Check-in for @DateTime.Now.ToString("dd.MM.yyyy") - Hamburg
+        Check-in for @DateTime.Now.ToString("dd.MM.yyyy") - Berlin
     </h2>
     <p>Please take a moment and check-in while we spin up our development environments!</p>
 </div>
@@ -15,10 +15,10 @@
 @using (Html.BeginForm("Checkin", "Home", null, FormMethod.Post))
 {
 <div class="form-group">
-    <label for="exampleInputEmail1">Email address of a Microsoft/O365 Live Account</label>
+    <label for="exampleInputEmail1">Email address of a WORK account!</label>
     <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
 </div>
-<div class="form-group">
+<div class="form-group">    
     <label for="fullname">Full Name</label>
     <input type="text" class="form-control" name="fullname" id="fullname" placeholder="first and last name" required>
 </div>
@@ -38,7 +38,7 @@
 <div class="checkbox">
     <label>
         Our conference is dedicated to providing a harassment-free conference experience for everyone, regardless of gender, gender identity and expression, age, sexual orientation, disability, physical appearance, body size, race, ethnicity, religion (or lack thereof), or technology choices. We do not tolerate harassment of conference participants in any form. Sexual language and imagery is not appropriate for any conference venue, including talks, workshops, parties, Twitter and other online media. Conference participants violating these rules may be sanctioned or expelled from the conference without a refund at the discretion of the conference organisers.
-        <input required type="checkbox">The <a href="http://confcodeofconduct.com/" target="_blank">code of conduct</a> is fine for me
+        <br /><input required type="checkbox">The <a href="http://confcodeofconduct.com/" target="_blank">code of conduct</a> is fine for me
     </label>
 </div>
 <button type="submit" class="btn btn-default">Submit</button>

@@ -70,7 +70,7 @@ namespace O365DevBootcamp.Speakers.Controllers
             };
 
             var client = new HttpClient();
-            var url = "https://outlook.office.com/webhook/48cf30cc-c8f4-4632-901e-2f750ace52f7@5697ac0d-aec6-4e7d-9437-986d6cac2590/IncomingWebhook/1844a5b58faf4af98eaeb2f1fb1b0d6a/7924b20e-426e-4276-a710-d9ed98b152d5";
+            var url = "https://outlook.office.com/webhook/ee4579c4-1d14-4da3-8d63-642c8046bee3@5697ac0d-aec6-4e7d-9437-986d6cac2590/IncomingWebhook/d4f9338721324905819343adaa0b6b0c/7924b20e-426e-4276-a710-d9ed98b152d5";
             var message = $"{{\"text\": \"{attendee.Fullname} checked in.\",\"sections\": [{{\"activityTitle\": \"Check-in\",\"activityText\": \"{attendee.Email}\",\"activityImage\": \"{attendee.Picture}\"}}]}}";
             var body = new StringContent(message, System.Text.Encoding.UTF8, "application/json");
             await client.PostAsync(url, body);
